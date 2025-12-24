@@ -64,6 +64,10 @@ const unoptimized = process.env.UNOPTIMIZED ? true : undefined
 module.exports = () => {
   const plugins = [withContentlayer, withBundleAnalyzer]
   return plugins.reduce((acc, next) => next(acc), {
+    activeDevOrigins: ['localhost', '172.30.1.74'],
+    experimental: {
+      allowedDevOrigins: ['localhost', '172.30.1.74'],
+    },
     output,
     basePath,
     reactStrictMode: true,

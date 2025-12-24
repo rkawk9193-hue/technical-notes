@@ -1,0 +1,623 @@
+
+10046 event 트레이스
+10053 event
+10384 event
+11g 메모리 설정
+12c hidden parameter
+12C NEW FEATURE
+2
+23C NEW FEATURE
+A
+ACTIVE 세션 모니터링 뷰
+Addm
+Adrci 사용법
+ADVANCED OWI INTERNALS AND PERFORMANCE IN ORACLE 10G RAC
+Aix oracle 12c 설치
+Aix oracle shell 환경
+AM PRO 사용하는 조회 뷰
+ANY ALL SOME 서브쿼리
+ASH (Active Session History)
+Ash report 생성
+Ash size 변경 ASH SIZE
+Ashviewer
+AUDIT 관리
+AWR 네트워크 대기 이벤트 모니터링
+AWR 일별 수집
+AWS KILL
+B
+Block gets consistent gets
+C
+Char 와 varchar2 비교
+Comments
+Consistent gets 와 physical reads
+CONSISTENT READ
+Cpu 유저,시스템,IDLE 별 사용률 조회 프로시져
+CRSCTL 명령어
+CTAS
+D
+DAILY 테이블 동기화 프로시져
+DAILY 테이블 사이즈 기록 프로시져
+DATABASE 조회 scripts
+DATAPUMP 타임존 차이 에러 해결 방법 ora-39405
+DBA DB이관 스크립트
+DBA HIST OSSTAT
+DBA LOCKS
+DBA 고급 과정
+DBA 모니터링 sqlplus용
+DBA 의 역활
+DBA 초급 과정
+DBLINK 튜닝
+Dbms datapump 데이터 필터링
+DBMS METADATA DDL
+DBMS MONITOR 패키지
+DBMS PARALLEL EXECUTE 패키지
+Dbms pclxutil
+DBMS SESSION 패키지
+DBMS XPLAN
+DB성능분석 - V$ 동적 성능뷰 활용 방법
+DDL DML DCL TCL
+DIRECT PATH LOAD 장단점
+DW 용어 및 설명
+E
+EARLIER Filter 서브쿼리
+Enqueue wait 이벤트
+ENTITY 엔터티 종류
+Erwin erd sql 생성스크립트
+ERWIN 컬럼 순서 동기화
+Execute 와 call 차이점
+EXPORT DP
+F
+Fast start parallel rollback
+FILTER 서브쿼리
+FK 로 참조되는 테이블
+FLASHBACK DATABASE LEVEL
+Flashback row level
+FLASHBACK TABLE LEVEL
+G
+Gc wait event
+Group by 튜닝
+H
+Heatmap
+I
+I/O SQL튜닝
+IMPORT DP
+INVALID 오브젝트
+J
+JPPD (Join Predicate PushDown)
+K
+Ksh 오라클 error 체크
+Ksh 오라클 환경변수
+L
+Library cache 튜닝
+Literal sql 개선방법
+LNNVL 함수
+LOB 사용시 storage in row 옵션
+LOB 처리
+LOB 컬럼 성능 개선 (압축)
+LOB 테이블 관리
+Lob 튜닝
+Lock 튜닝
+M
+MS MIG 전환솔루션
+N
+NL 조인
+NL조인 PREFETCH
+O
+Ocr 과 voting
+Optimizing oracle optimizer
+Ora-00904
+Ora-00942
+ORA-01017
+ORA-01552
+Ora-01555 snapshot too old
+ORA-02020 에러
+ORA-06502
+ORA-10873
+ORA-12505
+ORA-14511 파티셔닝 테이블 MOVE
+ORA-24344
+Ora-31623
+ORA-65096
+Oracle 11g 새기능
+Oracle 12c 새기능
+Oracle 19c 설치
+Oracle cdb pdb
+Oracle CROSS APPLY Join
+Oracle ctxsys 설치
+Oracle datapump 모니터링
+Oracle DBA 명령어
+ORACLE DBLINK 생성 수정
+Oracle dbms datapump 패키지
+ORACLE DDL 추출
+Oracle external table
+ORACLE FK 인덱스
+Oracle hot backup
+Oracle HR, OE, SH 스키마 생성
+Oracle INSERT ALL(다건 입력)
+Oracle matrialize hint
+ORACLE NOLOGGING
+Oracle num index keys
+Oracle odbc
+ORACLE ON UNIX 데이터베이스 관리
+Oracle pfile spfile parameter
+ORACLE RAC 리스너 IP 변경 19C
+Oracle redo log dump
+Oracle spa
+ORACLE SQL ADVISOR
+Oracle sqlnet.ora
+Oracle standard edition issue
+Oracle streamlit grid
+Oracle translate 함수
+Oracle undo dump
+Oracle V$ 와 X$ 뷰의 구조
+Oracle varchar2 최대길이 조정 , string max size 변경
+Oracle visual view
+Oracle Wait Event 모니터링
+ORACLE XMLAGG
+Oracle 데이터펌프
+Oracle 데이터펌프 API활용
+ORACLE 딕셔너리
+ORACLE 락 정보
+ORACLE 리소스 모니터링
+ORACLE 모니터링
+ORACLE 뷰
+ORACLE 사용자 권한
+ORACLE 사용자 롤 생성
+ORACLE 사용자 롤 생성 삭제 관리
+Oracle 언어설정
+ORACLE 유저 생성
+Oracle 이벤트 트레이스(Event Trace)
+ORACLE 인덱스
+Oracle 제약조건
+ORACLE 추출쿼리
+ORACLE 컬럼
+ORACLE 테이블 추출쿼리
+ORACLE 테이블 컬럼
+ORACLE 테이블스페이스
+ORACLE 튜닝 대상 조회
+ORACLE 트리거 추출쿼리
+ORACLE 프로시져
+ORACLE 프로시져 추출쿼리
+ORACLE 함수 추출쿼리
+ORTB(Oracle Return To Basic)
+P
+Parallel force local
+Parallel 설정
+Partition exchange
+PGA 관리
+Pivot
+PL/SQL 사용법 및 튜닝
+PL/SQL 샘플
+PL/SQL 코드 프로파일링
+PLSQL 개념
+PLSQL 변수
+PLSQL 성능분석
+PLSQL 제어문
+PQ REPLICATE 힌트
+Q
+Query Block
+Query result cache
+R
+RAC 리스너 설정
+RAC 모니터링 (스크립트 포함)
+Rac 아카이브모드
+Redo
+Redo aws 사이즈조정
+REDO Waiting Event (리두 대기 이벤트)
+Reorg 테스트
+RMAN + ASM환경 에서 HOT백업 복구
+Rman backup script
+Rman block change tracking
+Rman 에러
+Rman 테이블 복구
+Rman 테이블스페이스 복구
+Role 생성 조회 관리
+ROLLUP
+S
+SAVE POINT
+SCAN 리스너 재구성
+SCN 과 CHECK POINT
+SGA 관리
+SGA 와 PGA
+S
+Shrink 세그먼트
+SORT MERGE 조인
+SPM
+SQL & Perfomance Tuning Course
+SQL CONNECT BY
+Sql loop with bash
+SQL MERGE
+SQL UPDATE
+SQL 디벨로퍼
+SQL 디벨로퍼 설치
+SQL 매크로 함수
+SQL 모음
+SQL 실행원리
+SQL 작성 팁
+SQL 조인
+SQL 튜닝 노하우
+Sqlplus
+SRVCTL 명령어
+Startup 옵션 exclusive upgrade mount nomount
+Statspack 예시
+Sys login fail
+Sys.col usage$
+SYSDATE 이용 시간 조회
+T
+TKPROF
+TNS-12535: TNS:operation timed out
+TNSNAMES.ORA 샘플
+TRUNCATE
+U
+UNDO
+Undo 세미나
+UNDO 와 REDO 테스트
+UNUSABLE 파티션 테이블
+Use hash aggregation
+V
+V$process
+V$process memory
+V$session
+V$SQL
+V$SQL MONITOR
+V$SQL V$SQLAREA
+V$SQLSTATS
+V$SYSMETRIC
+V$SYSSTAT
+W
+Wait event
+Wait event 포퍼먼스 뷰
+Wait for a undo record
+Where절에 사용하는 인덱스
+X
+XMLTABLE 활용
+XPLAN
+ㄱ
+가상컬럼
+개념 데이터 모델링
+개인정보 비식별화 방법
+공공기간 프로젝트 산출물 DBA
+권한 관리
+권한 관리 프로시져
+글로벌 인덱스 관리
+금액 콤마표시
+김기창의 데이터 모델링 강의
+ㄴ
+논리 데이터 모델링
+ㄷ
+다이니믹 SQL 바인드 변수 처리
+대문
+데이터 Export 와 Import
+데이터 동시성 및 일관성
+데이터 모델링
+데이터 블럭
+데이터 품질 쿼리
+데이터 형변환
+데이터베이스 비교
+데이터이행 DDL작업
+데이터이행 전환 시나리오
+데이터펌프 디비링크
+동일 테이블에 병렬로 입력 하는 방법
+디렉토리
+디비링크 사용량 모니터링
+ㄹ
+락 처리 절차
+로우체이닝 로우마이그레이션
+리스너 로그 정리
+ㅁ
+마이그레이션
+마이그레이션 오브젝트 확인
+메타웍스(MetaWork) 엔터티
+모니터링 주요항목별 SQL
+모델링 요구사항 분석 방법
+모델링 용어
+모델링 표준화
+문자열 포함 확인 쿼리
+문제 식별 하기
+미사용 테이블
+ㅂ
+바인드변수
+버킷 (bucket) vs. 바스켓(basket)
+버퍼 캐시
+버퍼 피닝 buffer pinning
+버퍼캐시 사용쿼리
+벌크 동적 SQL 실행 예시
+병렬 쿼리 dop
+병렬 쿼리 granule
+병렬 쿼리 모니터링
+병렬 쿼리 제약사항
+병렬 쿼리 튜닝
+병렬쿼리 테스트
+분석 함수 튜닝
+분석함수
+뷰 튜닝
+블럭 읽기 와 쓰기
+블룸필터 BLOOM FILTER
+비용기반의 오라클 원리
+ㅅ
+서버 프로세스
+서버로그 파일
+서브쿼리
+서브파티션 추가
+선택도 카디널리티 Selectivity vs. Cardinality
+성능 향상을 위한 12 규칙
+세미조인
+세션
+시노님 권한 관리 프로시져
+시스템 속성 간편화
+실시간 통계작업
+실행계획 조인 읽는 순서
+ㅇ
+아카이브 로그 삭제 스크립트
+아카이브 로그 조회
+엑사데이타 EXADATA
+오라클
+오라클 & 문자
+오라클 10진수 16진수 변환
+오라클 11g 파라미터(aws)
+오라클 12c 파라미터(aws)
+오라클 adaptive query
+오라클 ADDM
+오라클 alert log
+오라클 ASM
+오라클 ASM 관리
+오라클 AWR
+오라클 BULK
+오라클 COALESCE
+오라클 CRS
+오라클 CURRENT SCHEMA
+오라클 DB 진단 방법론
+오라클 DBA 방법론
+오라클 DBA 시스템 권한
+오라클 DBA 체크리스트
+오라클 DDL 생성 스트립트
+오라클 DDL 트리거
+오라클 DEFAULT ROLE
+오라클 distinct 함수
+오라클 ERROR 메시지
+오라클 faq
+오라클 FK 생성 프로시져
+오라클 flashback
+오라클 FN ENG TO NUMBER 함수
+오라클 HWM 확인
+오라클 INVISIBLE INDEX
+오라클 ITL
+오라클 lateral 조인
+오라클 listagg 함수
+오라클 Listener (리스너)
+오라클 lob
+오라클 LOB 이관
+오라클 LogMiner
+오라클 LONG TO CHAR 함수
+오라클 MODEL 함수
+오라클 mv
+오라클 MVIEW
+오라클 nvl nvl2
+오라클 NVL2
+오라클 pfile spfile
+오라클 PK 생성
+오라클 power 함수
+오라클 PRAGMA
+오라클 PROFILE
+오라클 rac
+오라클 RAC SCAN 리스너 설정
+오라클 RAC VIP
+오라클 rac wait event
+오라클 RAC 관리
+오라클 RAC 설치 19c
+오라클 REVOKE
+오라클 rman
+오라클 RMAN CLONE 복구
+오라클 rman 개요
+오라클 rman 마이그레이션
+오라클 rman 명령어
+오라클 rman 복구
+오라클 rman 복구 시나리오
+오라클 rman 아카이브로그 삭제
+오라클 round 함수
+오라클 ROWID 구조
+오라클 sid 변경
+오라클 SQL 수집 프로그램
+오라클 sqrt 함수
+오라클 srvctl 명령
+오라클 statpack
+오라클 syntax 읽는법
+오라클 trace 로그
+오라클 VIEW 권한
+오라클 virtual 컬럼
+오라클 with 절
+오라클 XML 쿼리
+오라클 거리계산 함수
+오라클 골든게이트
+오라클 관리 뷰 VIEW
+오라클 관리 실무
+오라클 관리자계정
+오라클 구문 다이어그램
+ㅇ
+오라클 권고 파라미터 12C / 11G
+오라클 날짜 목록
+오라클 달력 SQL
+오라클 대량 데이터 생성
+오라클 데이터 복구
+오라클 데이터 유형 체크
+오라클 데이터 파일 손상 복구
+오라클 데이터베이스 컨셉
+오라클 도커
+오라클 디스크 io
+오라클 딕셔너리
+오라클 라이센스
+오라클 레퍼런스
+오라클 로그인 실패 기록 트리거
+오라클 리두 로그 튜닝
+오라클 리소스 상태 확인
+오라클 마스킹 함수
+오라클 메모리
+오라클 물리적 제한 사항
+오라클 바인드피크
+오라클 백업 과 복구
+오라클 버전 확인
+오라클 벌크 인서트
+오라클 복구 클론DB 이용
+오라클 복리 이자 계산
+오라클 비율 ratio to report
+오라클 빅파일 테이블스페이스
+오라클 사용자 ACCOUNT LOCK
+오라클 사용자 관리
+오라클 사용자 생성
+오라클 사용자정의 에러 발생
+오라클 사이즈 줄이기
+오라클 서브쿼리 설명 조인 튜닝
+오라클 성능 고도화 원리와 해법 1
+오라클 성능 고도화 원리와 해법 2
+오라클 성능 트러블슈팅의 기초
+오라클 세그먼트
+오라클 세션 확인
+오라클 수동설치
+오라클 쉘 환경설정
+오라클 스케줄러
+오라클 시간계산
+오라클 시간차이
+오라클 시퀀스
+오라클 시퀀스 관리
+오라클 시큐어파일 SECUREFILE
+오라클 실행계획 수집
+오라클 아키텍처
+오라클 에러 메시지
+오라클 엔지니어 목록
+오라클 오브젝트
+오라클 오브젝트 뷰
+오라클 온라인 백업
+오라클 용량
+오라클 용어사전
+오라클 유저 생성 oracle user create
+오라클 인덱스 타지 않는 경우
+오라클 인벤토리(Inventory)
+오라클 자동 통계정보 스케줄
+오라클 접속 사용자 정보 변수
+오라클 접속자
+오라클 정규식
+오라클 체크 함수
+오라클 초기화 파라미터
+오라클 초를 시분초로 변환 함수
+오라클 추천도서
+오라클 카디널리티 CARDINALITY
+오라클 컬럼 자동증가
+오라클 컬럼 추가 삭제 변경
+오라클 코멘트
+오라클 코어
+오라클 코어 - 조나단 루이스
+오라클 클러터링 팩터
+오라클 타임스탬프
+오라클 테이블 복사 프로시져
+오라클 테이블 생성
+오라클 테이블 압축 table compress
+오라클 테이블 정보
+오라클 테이블 최종 입력수정일시
+오라클 텍스트 유사도
+오라클 템프 테이블스페이스
+오라클 통계정보 EXPORT IMPORT
+오라클 통계정보 이동
+오라클 통화 포맷 함수
+오라클 툴
+오라클 튜닝 autotrace
+오라클 튜닝 sql trace
+오라클 튜닝 과정
+오라클 튜닝 네트워크 성능
+오라클 튜닝 방법론
+오라클 튜닝 테이블 실제 건수
+오라클 트랜잭션,블럭,언두,리두 덤프 테스트
+오라클 트리거
+오라클 팁
+오라클 파라미터
+오라클 파티션 테이블 통계정보 생성
+오라클 패치
+오라클 퍼포먼스 튜닝
+오라클 페이징 쿼리
+오라클 프로시져
+오라클 프로시져 패러럴 실행
+오라클 프로시져 함수 목록
+오라클 프로파일
+오라클 플랜 수집 프로그램
+오라클 플러그인DB 추가하기
+오라클 피봇 Pivot
+오라클 함수
+오라클 휴지통
+오라클 히든 파라미터
+오라클 히든파라미터 조회
+오라클 히스토그램
+오라클 힌트 목록 조회 V$SQL HINT
+오라클(Oracle) SID 및 service name(DB NAME) 확인
+오라클을 이용하여 OS 디스크사이즈 조회방법
+오렌지 sessmon 권한
+오렌지 툴 사용법
+오브젝트 비교
+오브젝트 비교 & 이관
+옵티마이져
+원리부터 실전까지 오라클 백업과 복구(실전)
+유저 병렬쿼리 사용 제한 방법
+유저 패스워드 갱신
+이력관리 점이력 선분이력
+인덱스 구조
+인덱스 모니터링
+인덱스 사용 내용 검사
+인덱스 생성 아키텍처
+인덱스 생성 추출 함수인덱스
+인덱스 클러스터링 팩터
+인스턴스 시작 과 종료
+일반 테이블 파티션 테이블 변경
+ㅈ
+자동 및 수동 LOCK 메커니즘
+장애 복구 방안
+장애 유형별 복구 절차
+전문가를 위한 트러블슈팅 오라클 퍼포먼스
+전용서버 와 공유서버
+제약사항 생성 스크립트
+조건절 push
+조인 순서 제어하기
+조인 순서 테스트
+조인별 튜닝 포인트
+ㅋ
+카테시안 프로덕트 튜닝 기법
+커서 Cursor
+컬럼정보조회
+쿼리 변환
+ㅌ
+타임존 함수
+테스트
+테이블 DROP 프로시져
+테이블 inittrans maxtrans
+테이블 일별 건수 기록 프로시져
+테이블 함수(Table Function) 와 파이프라인 함수(Pipeline Function)
+테이블생성 스크립트
+테이블스페이스 용량 줄이기
+템프테이블
+템프테이블 모니터링
+템프테이블 확장
+토드 &문자 이스케이프 처리
+토드 단축키
+토드 멀티바이트 에러 조치
+토드 사용자 단축키
+튜닝 access vs filter 방식
+튜닝 보고서 샘플
+튜닝 쿼리 변형
+트랜젝션 중인 데이터 조회 V$transaction
+특정 IP,프로그램(Module) 접속 차단
+ㅍ
+파라미터 관리
+파티셔닝 인덱스
+파티셔닝테이블
+파티션 테이블
+파티션 테이블 로컬인덱스 생성
+패키지
+패키지 프로시져 함수 컴파일 락 발생
+프로시져 병렬 처리
+프로시져 샘플
+프로파일러
+플랜 비교 dbms xplan.compare plans 패키지
+ㅎ
+해시 조인 HASH
+효과적인 병렬처리 방법
+효율적인 PL/SQL 작성방법
+효율적인 SQL 작성방법
+힌트 종류
+힌트없이 실행계획 변경 (outline 기능 , 19c 신규)
