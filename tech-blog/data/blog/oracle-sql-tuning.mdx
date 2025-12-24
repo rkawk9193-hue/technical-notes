@@ -1,0 +1,42 @@
+---
+title: 실무에서 바로 쓰는 Oracle SQL 튜닝 팁 5가지
+date: '2025-12-22'
+tags: ['Oracle', 'SQL', 'Tuning', 'Tip']
+draft: false
+summary: 쿼리 성능을 즉각적으로 개선할 수 있는 실용적인 5가지 SQL 튜닝 팁을 공유합니다.
+---
+
+## 1. 인덱스 컬럼 가공 금지
+
+인덱스가 걸려있는 컬럼을 함수로 감싸거나 연산을 수행하면 인덱스를 타지 못합니다.
+
+```sql
+-- Bad (인덱스 미사용)
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE, 'YYYY') = '2023';
+
+-- Good (인덱스 사용)
+SELECT * FROM EMP WHERE HIREDATE BETWEEN TO_DATE('20230101', 'YYYYMMDD') AND TO_DATE('20231231', 'YYYYMMDD');
+```
+
+## 2. 서브쿼리 Unnesting 활용
+
+서브쿼리가 메인 쿼리와 병합(Unnesting)되도록 유도하여 조인 순서를 최적화할 수 있게 합니다. 필요 시 힌트(`/*+ UNNEST */`)를 사용합니다.
+
+## 3. 불필요한 함수 호출 줄이기
+
+SELECT 리스트에 사용자 정의 함수(User Defined Function)를 사용하면 건수만큼 함수가 실행되어 성능이 저하됩니다. 가급적 조인으로 해결하거나 스칼라 서브쿼리 캐싱 효과를 노려야 합니다.
+
+## 4. Like 검색 시 와일드카드 위치 주의
+
+`LIKE '%Value'`와 같이 앞에 와일드카드가 오면 인덱스 Range Scan이 불가능합니다.
+
+## 5. 실행 계획(Execution Plan) 확인의 생활화
+
+`Ctrl + E` (SQL Developer 기준)를 습관적으로 눌러보세요.
+*   **TABLE ACCESS FULL**: 풀 스캔이 의도된 것인지 확인.
+*   **INDEX RANGE SCAN**: 적절한 인덱스를 탔는지 확인.
+*   **COST**: 상대적인 비용 비교.
+
+---
+
+> 튜닝은 "최소한의 일(I/O)로 원하는 결과를 얻는 것"입니다. 실행 계획을 통해 블록 읽기 횟수(Consistent Gets)를 줄이는 데 집중하세요.

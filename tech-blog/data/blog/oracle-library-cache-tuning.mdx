@@ -1,0 +1,195 @@
+---
+title: Oracle Library Cache 튜닝과 성능 최적화 가이드
+date: '2025-12-24'
+tags: ['Oracle', 'Database', 'Performance', 'Tuning', 'SQL']
+draft: false
+summary: Oracle Library Cache의 동작 원리를 이해하고, 하드 파싱과 소프트 파싱의 차이점, 그리고 주요 래치 경합 문제 해결 방법을 다룹니다.
+---
+
+## SQL 작성과 파싱 (SQL Writing and Parsing)
+
+SQL문을 실행하면, 데이터베이스는 아스키 값으로 계산하여 처리합니다.
+
+*   **대문자, 띄어쓰기, 주석**에 따라 아스키 값이 다르므로 표현이 달라지면 다른 SQL문으로 인식합니다.
+*   같은 결과를 얻지만 표현이 다른 SQL문은 실행할 때마다 **Library Cache**에서 **하드 파싱(Hard Parsing)** 됩니다.
+
+### 하드 파싱 (Hard Parsing)
+하드 파싱은 SQL문의 검색과 공간 확보를 위해 `Shared Pool Latch` 와 `Library Cache Latch`를 필요로 합니다.
+*   잦은 하드 파싱은 리소스를 과도하게 사용하고 래치를 오래 점유하므로 SQL문의 수행에 지연이 발생합니다.
+
+### 소프트 파싱 (Soft Parsing)
+하드 파싱을 피하기 위해서는 SQL문을 재사용하는 **소프트 파싱**이 필요합니다.
+
+*   SQL문 작성 시, 대문자, 띄어쓰기, 주석에 대한 원칙을 세워야 합니다.
+*   **바인드 변수**를 사용하면 변수에 들어가는 값에 관계없이 파싱합니다.
+*   파싱이 끝나면 바인드값(`:value`)을 대입하게 되는데, 적용되는 값에 상관없이 SQL을 공유할 수 있게 됩니다.
+
+SQL을 수행하게 되면 Library Cache에서 해당 래치를 획득하고 수행하려는 SQL 실행정보(LCO: Library Cache Object)가 있는지 검색합니다.
+*   **소프트 파싱**: SQL이 있으면 LCO의 생성 과정을 거치지 않고 바로 실행할 수 있습니다.
+*   **하드 파싱**: SQL이 Library Cache에 존재하지 않는 새로운 SQL이라면 LCO를 만들어 실행 정보를 저장합니다.
+    1.  Shared Pool 래치를 획득하여 저장할 공간을 확보해야 합니다.
+    2.  공간이 마련되면 SQL의 LCO가 생성되고, 여기에 SQL문과 실행계획 등의 정보를 저장합니다.
+    3.  이렇게 만들어진 LCO를 통해 SQL이 수행됩니다.
+
+> 최초로 수행되는 SQL은 하드 파싱을 피할 순 없습니다. 그러나 두 번째 수행부터는 소프트 파싱을 하는 게 보다 빠르고 적은 리소스를 사용하니 더 효율적입니다.
+
+---
+
+## Child LCO (Library Cache Objects) 생성
+
+SQL이 파싱이 되면, LCO를 만듭니다.
+*   LCO도 같은 SQL이라고 해서 하나로 같이 쓰는 것이 아니라, 유저가 다르고 환경이 달라도 따로 LCO를 만들어서 관리합니다.
+*   조건이 다르면 전부 다르게 LCO를 만들게 됩니다.
+
+Child LCO가 다르게 만들어지는 이유는 `V$SQL_SHARED_CURSOR`란 뷰를 보면 확인이 가능합니다.
+*   오라클 프로시저나 테이블과 같은 객체에 대해서는 스키마명을 항상 같이 저장하기 때문에 유일성이 보장됩니다.
+*   하지만, SQL 문장의 경우에는 SQL 텍스트 자체가 이름으로 사용되기 때문에 유일성이 보장되지 않습니다.
+*   따라서 오라클 SQL 텍스트를 이름으로 갖는 **부모 LCO**를 생성하고 실제 SQL 커서에 대한 정보는 **자식 LCO**에 저장합니다.
+
+> 가령 두 개의 다른 스키마 A, B에서 텍스트는 동일하지만, 실제로 참조하는 객체는 다른 SQL 문장을 수행한 경우:
+> 오라클은 SQL 텍스트에 해당하는 부모 LCO와 스키마 A가 수행한 SQL 커서에 해당하는 자식 LCO, 스키마 B가 수행한 SQL 커서에 해당하는 자식 LCO, 총 세 개의 LCO를 생성합니다.
+
+---
+
+## Library Cache Latch
+
+`latch: library cache` 대기 이벤트는 Library Cache 래치를 획득하는 과정에서 경합이 발생하여 나타나는 대기 이벤트입니다. Shared Pool 래치가 프리 청크(Free chunk)를 찾기 위해 프리리스트(Free List)를 스캔하고 적절한 청크를 할당하는 작업을 보호한다면, Library Cache 래치는 SQL을 수행하기 위해 Library Cache 메모리 영역을 탐색하고 관리하는 모든 작업을 보호합니다.
+
+### 일반적인 문제 상황 및 대처 방안
+
+#### 1. 파싱이 과다한 경우
+*   **진단 방법**: `latch: library cache` 대기가 높은 시점의 파싱에 소요된 시간(`parse time elapsed`), 발생한 파싱 횟수, SQL 수행 횟수를 확인합니다.
+*   **개선 방법**:
+    *   바인드 변수 사용.
+    *   Web Application Server의 경우, Statement Cache 기능 사용.
+    *   애플리케이션 수정, Static SQL 사용.
+    *   `session_cached_cursors` 파라미터 조정.
+
+#### 2. 버전 카운트(Version Count)가 높은 경우
+*   **진단 방법**: `V$SQLAREA` 뷰에서 `latch: library cache`의 보유 시간이 긴 SQL의 `VERSION_COUNT` 컬럼 값을 확인합니다.
+    *   **Assignment: 버전 카운트 예시**
+        ```sql
+        Scott 유저 조회 SQL: select * from emp where empno = 1;
+        Mary  유저 조회 SQL: select * from emp where empno = 1;
+        John  유저 조회 SQL: select * from emp where empno = 1;
+        ```
+        위 세 SQL 문장은 Text가 동일하므로 해시 값도 동일하여 같은 해시 체인에 할당되지만, 참조하는 테이블이 다르므로(스키마가 다름) **서로 다른 자식 LCO**가 됩니다. 이 경우 `VERSION_COUNT`는 3이 됩니다.
+
+#### 3. SGA 영역의 페이지 아웃(Page Out)이 발생하는 경우
+*   **진단 방법**: `latch: library cache` 대기가 높은 시점 O/S에서 스왑(Swap) 발생 여부 확인.
+*   **개선 방법**:
+    *   Memory 과다 사용 프로세스 검출.
+    *   HP-UX, AIX: `LOCK_SGA` 파라미터 값을 TRUE로 변경.
+    *   SunOS: `_USE_ISM` 파라미터 값이 TRUE인지 확인.
+
+---
+
+## SESSION_CACHED_CURSORS
+
+`SESSION_CACHED_CURSORS` 파라미터 값이 세팅되어 있으면 오라클은 세 번 이상 수행된 SQL 커서에 대한 정보를 **PGA(Program Global Area)** 내에 보관합니다. 따라서 Library Cache 영역을 탐색하는 시간이 줄어들어 상대적으로 래치를 보유하는 시간이 줄어들게 됩니다.
+
+> 기본 값이 작다면 되도록이면 **50 이상의 값**을 설정하는 것이 바람직합니다.
+
+---
+
+## Cache Buffers Chains (Hot Block)
+
+`latch: cache buffers chains`는 버퍼 캐시를 사용하기 위해 해시 체인을 탐색하거나 변경할 때 획득해야 하는 래치입니다. 이 과정에서 경합이 발생하면 대기 이벤트가 발생합니다.
+
+### 원인 및 해결
+1.  **비효율적인 SQL 문장 사용**: `V$SQLAREA`를 통해 확인하고 튜닝합니다.
+2.  **핫 블록(Hot Block)에 의한 문제**: `V$LATCH_CHILDREN` 뷰에서 `SLEEPS` 값이 높은 자식 래치를 확인합니다.
+
+### Hot Block 여부 판단 SQL
+
+```sql
+select * from
+(select child#, gets, sleeps from v$latch_children
+         where name = 'cache buffers chains'
+         order by sleeps desc
+) where rownum <= 20;
+```
+
+Hot Block 식별 SQL (`X$BH` 뷰 이용):
+```sql
+select hladdr
+     , obj
+     , (select object_name 
+          from dba_objects 
+         where (data_object_id is null and object_id = x.obj) 
+            or data_object_id = x.obj and rownum = 1) as object_name
+     , dbarfil
+     , dbablk
+     , tch 
+  from x$bh x
+ where hladdr in ('C0000000CDFF24F0', 'C0000000CE3ADDF0', 'C0000000CDF18A98')
+ order by hladdr, obj;
+```
+> Touch Count(`tch`)가 높은 블록을 기준으로 핫 블록을 추출할 수 있습니다.
+
+**개선 방법**: `PCTFREE`를 높게 주거나 작은 크기의 블록을 사용. 파티셔닝 적용.
+
+---
+
+## Cache Buffers LRU Chain
+
+`latch: cache buffers lru chain`은 Working Set(LRU + LRUW)을 탐색하거나 변경할 때 발생하는 경합입니다.
+
+*   **원인**:
+    *   버퍼 캐시 크기가 너무 작은 경우 -> 크기를 늘립니다.
+    *   체크 포인트 주기가 지나치게 짧은 경우 -> `FAST_START_MTTR_TARGET` 조정.
+    *   비효율적인 SQL 문장 (Full Scan 등) -> SQL 튜닝.
+
+### LRU Chain vs Chains 래치 차이
+*   **Cache Buffers Chains**: 동일 테이블/인덱스에 대한 동시 스캔 (동일 체인 경합).
+*   **Cache Buffers LRU Chain**: 서로 다른 테이블/인덱스를 스캔하더라도, 새로운 블록을 메모리에 올리기 위해 **프리 버퍼(Free Buffer)**를 확보하는 과정에서 경합 발생. 물리적 I/O를 수반함.
+
+**버퍼 캐시 히트율 확인 SQL**:
+```sql
+select to_char((sum(decode(name, 'consistent gets', value, 0)) +
+       sum(decode(name, 'db block gets', value, 0)) - 
+       sum(decode(name, 'physical reads', value, 0)) - 
+       sum(decode(name, 'physical reads direct', value, 0))) / 
+       (sum(decode(name, 'consistent gets', value, 0)) + 
+        sum(decode(name, 'db block gets', value, 0))) *
+       100, '999.99') || ' %' "Buffer Cache Hit Ratio"
+from v$sysstat;
+```
+
+---
+
+## Library Cache Lock & Pin
+
+### Library Cache Pin
+Library Cache Object의 실행 정보를 바꾸거나 참조하는 과정에서 경합이 발생합니다.
+*   하드 파싱을 수행하는 세션은 **Exclusive Mode**로 Pin을 획득합니다.
+*   이때 같은 SQL을 수행하려는 다른 세션들은 **library cache lock**을 대기합니다.
+
+### 원인 및 대처
+*   **원인**: 운영 중 DDL 명령(Create, Alter, Flush 등) 수행.
+*   **진단**: `X$KGLPN`, `V$SESSION` 등을 통해 Holder 세션 확인.
+*   **개선**: 업무 시간 중 과도한 오브젝트 변경(DDL)을 피해야 합니다.
+
+### Library Cache Lock 확인 SQL
+```sql
+SELECT p2raw, to_number(substr(to_char(rawtohex(p2raw)), 1, 8), 'XXXXXXXX') sid
+FROM v$session
+WHERE event = 'cursor: pin S wait on X';
+```
+
+---
+
+## 기타 튜닝 요소
+
+### Shared Pool (Bind Mismatch)
+*   `_KGHDSIDX_COUNT` 히든 파라미터를 이용해 서브풀(Sub-pool)을 생성하여 경합을 분산시킬 수 있습니다.
+*   `DBMS_SHARED_POOL.KEEP` 프로시저를 이용해 자주 사용되는 객체를 메모리에 상주시켜 하드 파싱을 방지할 수 있습니다.
+*   `CURSOR_SHARING` 기법을 사용하여 리터럴 SQL을 강제로 바인드 변수화할 수 있습니다.
+
+### Mutex (Mutual Exclusion)
+오라클 10g 이후부터 Shared Cursor Operation에 대해 Mutex가 동기화 객체로 사용됩니다.
+*   `cursor: pin S wait on X` 이벤트는 Mutex Pin 획득 과정에서의 대기입니다.
+
+### DB Cache Advice
+`DB_CACHE_ADVICE` 파라미터를 통해 버퍼 캐시 크기 조절 시 성능 예측 기능을 사용할 수 있습니다.
+*   `OFF`, `ON`, `READY` 상태가 있으며, `ON`일 경우 CPU/메모리 오버헤드가 발생하므로 주의해야 합니다.
